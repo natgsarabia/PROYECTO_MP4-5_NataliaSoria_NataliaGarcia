@@ -1,0 +1,295 @@
+﻿@using PROYECTO_LENGUAJE_MARCAS.Controllers
+@{
+    ViewData["Title"] = "Home";
+ 
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/WeatherInformation.css")" />
+
+    <style>
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(240, 248, 255, 0.7);
+            border-radius: 5%;
+            padding: 20px;
+            max-width: 90%;
+            min-width: 80%;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 5%;
+        }
+
+        .container {
+            width: 100%;
+        }
+
+        .currentCityBox {
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: fit-content;
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 5px; 
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .temperature{
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 80px;
+            font-weight: bolder;
+            background: linear-gradient(to right, #fa4261, #f39762, #d5aa10);
+            background-size: cover;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 1px rgb(253, 239, 239);
+        }
+
+        .leftSpan {
+            align-items: center;
+            flex: 1;
+            font-size: xx-large;
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .rightSpan {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .currentInformation {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;   
+            margin-top: 5%;  
+        }
+        
+
+        .currentInformation span {
+            flex-basis: 45%;
+            display:flex;
+            flex-direction: column;
+            align-items: left;
+            
+        }
+
+
+        .information{
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 25px;
+            text-align:left;
+            background: linear-gradient(to right, #085409, #085409, #058b08);
+            background-size: cover;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .data{
+            font-size: 15px;
+            font-weight: bolder;
+            margin-left: 10%;
+        }
+
+        .data-container {
+            padding: 10px;
+            margin: 10px;
+            border: 2px solid #085409; 
+            border-radius: 10px;
+            background: linear-gradient(to right, #f8ea90, rgb(79, 170, 245));
+            
+            transition: transform 0.3s ease-in-out; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            position: center;
+        }
+
+        .data-container:hover {
+            transform: scale(1.1); 
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+        }
+
+        .qualityAir {
+            margin: 100px auto;
+            width: 80%;
+            height: fit-content;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            color:rgb(1, 40, 20);
+            font-size: large;
+            font-weight: bolder;
+            margin-top:5%;
+            margin-bottom: 0;
+            
+        }
+
+        .qualityText{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 35px;
+            font-weight: bolder;
+            background: linear-gradient(to right, #085409, #085409, #058b08);
+            background-size: cover;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 1px rgb(253, 239, 239);
+            text-decoration: none;
+        }
+        }
+
+        footer{
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            
+        }
+
+    
+    </style>
+
+</head>
+
+<body>
+
+    <main class="main">
+            @if (Model != null && Model.Count > 0 && Model[0].data != null)
+            {
+                foreach (var datum in Model[0].data)
+                {
+                    string backgroundCurrentCity = datum.precip > 20 ? "~/Content/Images/iconWeather/day/rain.jpg" :
+                                          datum.snow > 0 ? "~/Content/Images/iconWeather/day/snow.jpg" :
+                                          datum.clouds >= 50 ? "~/Content/Images/iconWeather/day/cloud.jpg" : 
+                                          "~/Content/Images/iconWeather/day/sunny.jpg";
+
+                    <div class="container">
+                        <div class="currentCityBox" style="background-image: url('@Url.Content(backgroundCurrentCity)')">
+                            <div class="leftSpan">
+                                <h1 style="font-weight: bolder; font-size:40px;">@datum.city_name</h1>
+                                <h3 style="font-weight: bolder; font-size:30px;">@datum.ob_time</h3>
+                            </div>
+                            <div class="rightSpan">
+                                <p class="temperature">@datum.temp ºC</p>
+                            </div>
+                        </div>
+                        <div class="currentInformation">
+                            <span class = "data-container">
+                                <div style="margin-bottom:5%">
+                                    <p class="information">
+                                        <img src="@Url.Content("~/Content/Images/iconWeather/sunrise.png")" height="30px" width="30px" alt="First slide">
+                                        SUNRISE TIME: </p>
+                                    <p class="data">@datum.sunrise H</p>
+                                </div>
+                                <div style=margin-left:5%>
+                                    <div><p class="information">CLOUD COVERAGE: </p><p class="data">@datum.clouds %</p></div>
+                                    <div><p class="information">RAIN PRECIPITATION: </p><p class="data">@datum.precip mm/hr</p></div>         
+                                    <div><p class="information">SNOW PRECIPITATION: </p><p class="data">@datum.snow mm/hr</p></div> 
+                                </div>
+                                                              
+                            </span>
+
+                            <span class = "data-container">
+                                <div style="margin-bottom:5%">  
+                                    <p class="information">
+                                        <img src="@Url.Content("~/Content/Images/iconWeather/sunset.png")" height="30px" width="30px" alt="First slide">
+                                        SUNSET TIME: </p>
+                                    <p class="data">@datum.sunset H</p>
+                                </div>
+                                <div style=margin-left:5%>
+                                    <div><p class="information">UV INDEX: </p><p class="data">@datum.uv </p></div>
+                                    <div><p class="information">SPEED WIND: </p><p class="data">@datum.wind_spd m/s</p> </div>
+                                    <div><p class="information">HUMITY: </p><p class="data">@datum.rh %</p></div>    
+                                </div>            
+                            </span>
+                        </div>
+                        
+                        @if (datum.aqi>100)
+                        {
+                            
+                            <div class="qualityAir" style="background-image: url('@Url.Content("~/Content/Images/iconWeather/qualityAirBAD.png")');">
+                                 <a  class="qualityText stretch-out" style="margin-left:0.5%  z-index:1;" href="@Url.Action("AqiAirInformation", "Home", new { longitude = datum.lon , latitude=datum.lat})" > QUALITY AIR  : @datum.aqi ICA</a>
+                                <img src="@Url.Content("~/Content/Images/iconWeather/airBAD.png")" height="120px" width="140px" style="margin-left:0.5%" alt="First slide">
+                            </div>
+                        }
+                        else if (datum.aqi >60)
+                        {
+                            
+                            <div class="qualityAir" style="background-image: url('@Url.Content("~/Content/Images/iconWeather/qualityAirOK.jpg")');">
+                                 <a  class="qualityText stretch-out" style="margin-left:0.5%  z-index:1;" href="@Url.Action("AqiAirInformation", "Home", new { longitude = datum.lon , latitude=datum.lat})" > QUALITY AIR  : @datum.aqi ICA</a>
+                                <img src="@Url.Content("~/Content/Images/iconWeather/airOK.png")" height="80px" width="100px" style="margin-left:0.5%" alt="First slide">
+                            </div>
+                        }
+                        else if (datum.aqi<60)
+                        {
+                            
+                            <div class="qualityAir" style="background-image: url('@Url.Content("~/Content/Images/iconWeather/qualityAirGOOD.jpg")');">
+                                <a  class="qualityText stretch-out" style="margin-left:0.5%  z-index:1;" href="@Url.Action("AqiAirInformation", "Home", new { longitude = datum.lon , latitude=datum.lat})" > QUALITY AIR  : @datum.aqi ICA</a>
+                                <img src="@Url.Content("~/Content/Images/iconWeather/airGOOD.png")" height="120px" width="140px" style="margin-left:0.5%" alt="First slide">
+                            </div>
+                        }
+                        <div style="align-items: center;">
+                            <p style="text-align: center;font-family:  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;color:#085409;font-weight: bolder;">
+                                <img src="@Url.Content("~/Content/Images/arrow.gif")" height="20px" width="20px" style="margin-left:0.5%" alt="First slide">
+                                Click here for more information about the air pollution
+                                <img src="@Url.Content("~/Content/Images/arrow.gif")" height="20px" width="20px" style="margin-left:0.5%" alt="First slide">
+                                </p> 
+                        </div>
+                            
+                        
+                    </div>
+                    @if (datum.precip >=20)
+                    {
+                        <body style="background-image: url('@Url.Content("~/Content/Images/lluvia.gif")')"></body>
+                    }
+                    else if (datum.snow > 0)
+                    {
+                        <body style="background-image: url('@Url.Content("~/Content/Images/nieve.gif")')"></body>
+                    }
+                    else if (datum.clouds >= 50)
+                    {
+                        <body style="background-image: url('@Url.Content("~/Content/Images/nublado.jpeg")')"></body>
+                    }
+                    else
+                    {
+                        <body style="background-image: url('@Url.Content("~/Content/Images/soleado.gif")')"></body>
+                    }
+                }
+            }
+
+                else
+                {
+                    <p>No se encontraron datos de clima.</p>
+                }
+    </main>
+
+</body>
+</html>

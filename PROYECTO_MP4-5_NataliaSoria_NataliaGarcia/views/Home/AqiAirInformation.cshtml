@@ -1,0 +1,266 @@
+﻿@using PROYECTO_LENGUAJE_MARCAS.Models
+@{
+    ViewData["Title"] = "Aqi Information";
+ 
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <style>
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: url('@Url.Content("~/Content/Images/hojasCayendo.gif")');
+        }
+
+        main {
+            flex: 1; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(240, 248, 255, 0.7);
+            border-radius: 5%;
+            padding: 20px;
+            max-width: 90%;
+            min-width: 80%;
+            margin: auto;
+            margin-top: 10px;
+            
+        }
+
+
+        .title {
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 60px;
+            font-weight: bolder;
+            background: linear-gradient(to right, #085409, #28962a, #85d687);
+            background-size: cover;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 2px rgb(253, 239, 239);
+            text-decoration: none;
+            text-align: center;
+            margin-bottom: -5%;
+
+        }
+        
+
+        .container {
+            width: 80%;
+            height: fit-content;
+        }
+        
+
+        .currentInformation {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;   
+            margin-top: 5%;  
+        }
+        
+
+        .currentInformation span {
+            flex-basis: 45%;
+            display:flex;
+            flex-direction: column;
+            align-items: left;
+            width: fit-content;
+            height: fit-content;
+            
+        }
+
+        .contaminants{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 25px;
+            font-weight: bolder;
+            background: linear-gradient(to right, #085409, #085409, #058b08);
+            background-size: cover;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 1px rgb(253, 239, 239);
+            text-decoration: none;
+            text-align: center;
+        }
+
+
+        .information{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 15px;
+            font-weight: bolder;
+            margin-left: 10%;
+        }
+
+
+        .qualityAir {
+            margin: 50px auto;
+            width: 80%;
+            height: fit-content;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            color:rgb(1, 40, 20);
+            font-size: large;
+            font-weight: bolder;
+            
+        }
+
+        .qualityText{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 25px;
+            font-weight: bolder;
+            background: linear-gradient(to right, #085409, #085409, #058b08);
+            background-size: cover;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 1px rgb(253, 239, 239);
+        }
+
+        .predominant{
+            border:solid 3px #085409;
+        }
+        .pollen{
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 20px;
+            font-weight: bolder;
+            background: linear-gradient(to right, #085409, #085409, #058b08);
+            background-size: cover;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          
+        }
+
+        
+
+        footer{
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 5%;
+        }
+
+    
+    </style>
+
+</head>
+
+<body>
+    <main class="main">
+
+
+        @if (Model != null && Model.Count > 0)
+        {
+            var aqiModel = Model[0];
+
+            if (aqiModel.data != null && aqiModel.data.Count > 0)
+            {
+                foreach (var datum in aqiModel.data)
+                {
+                    <div class="container">
+
+                        <p class="title">@aqiModel.city_name</p>  
+       
+                        @if (datum.aqi > 100)
+                        {
+                            <div class="qualityAir" style="background-image: url('@Url.Content("~/Content/Images/iconWeather/qualityAirBAD.png")');">
+                                <p class="qualityText" style="margin-left:0.5%">QUALITY AIR : @datum.aqi ICA</p>
+                                <img src="@Url.Content("~/Content/Images/iconWeather/airBAD.png")" height="120px" width="140px" style="margin-left:0.5%" alt="First slide">
+                            </div>
+                        }
+                        else if (datum.aqi > 60)
+                        {
+                            <div class="qualityAir" style="background-image: url('@Url.Content("~/Content/Images/iconWeather/qualityAirOK.jpg")');">
+                                <p class="qualityText" style="margin-left:0.5%">QUALITY AIR : @datum.aqi ICA</p>
+                                <img src="@Url.Content("~/Content/Images/iconWeather/airOK.png")" height="120px" width="140px" style="margin-left:0.5%" alt="First slide">
+                            </div>
+                        }
+                        else if (datum.aqi < 60)
+                        {
+                            <div class="qualityAir" style="background-image: url('@Url.Content("~/Content/Images/iconWeather/qualityAirGOOD.jpg")');">
+                                <p class="qualityText" style="margin-left:0.5%">QUALITY AIR : @datum.aqi ICA</p>
+                                <img src="@Url.Content("~/Content/Images/iconWeather/airGOOD.png")" height="120px" width="140px" style="margin-left:0.5%" alt="First slide">
+                            </div>
+                        }
+                       
+                        <div class="currentInformation">
+                            <span>
+                                <p class="contaminants">AIR POLLUTANTS CONCENTRATION</p>
+                                <p class="information">Concentration of surface O3:<br>@datum.o3 µg/m³</p>
+                                <p class="information">Concentration of surface SO2:<br>@datum.so2 µg/m³</p>      
+                                <p class="information">Concentration of surface NO2:<br>@datum.no2 µg/m³</p>
+                                <p class="information">Concentration of carbon monoxide:<br>@datum.co µg/m</p>
+                                <p class="information">Concentration of large coarse particles:<br>@datum.pm10 µg/m³</p>        
+                                <p class="information">Concentration of fine particles:<br>@datum.pm25 µg/m³</p>
+                            </span>
+                            <span>
+                                <p class="contaminants" style="margin-top:5%;">POLLEN LEVELS</p>
+                                <p style="font-size: 12px; margin-top:-15px; margin-left: 5%; font-family: 'Gill Sans';font-weight: bolder; color:#085409;">(0=None, 1=Low, 2=Moderate, 3=High, 4=Very High):  </p>
+                                <p class="information" style="margin-top:5%;">Tree pollen: @datum.pollen_level_tree </p>
+                                <p class="information">Grass pollen: @datum.pollen_level_grass</p> 
+                                <p class="information">Weed pollen: @datum.pollen_level_weed </p>   
+                                <p class="information">Mold pollen: @datum.mold_level</p>
+
+                                @if (datum.predominant_pollen_type=="Trees")
+                                {
+                                    <div class="predominant" style="margin-top:10%">
+                                        <p class="information">PREDOMINANT POLLEN TYPE:</p>
+                                        <p class="pollen">@datum.predominant_pollen_type <img src="@Url.Content("~/Content/Images/iconsAqi/trees.png")" height="60px" width="60px" style="margin-left:0.5%"></p>   
+                                    </div>      
+                                }
+                                else if (datum.predominant_pollen_type=="Weeds")
+                                {
+                                    <div class="predominant" style="margin-top:10%">
+                                        <p class="information">PREDOMINANT POLLEN TYPE:</p>
+                                        <p class="pollen">@datum.predominant_pollen_type <img src="@Url.Content("~/Content/Images/iconsAqi/weeds.png")" height="60px" width="60px" style="margin-left:0.5%"></p>   
+                                    </div>   
+                                }    
+                                else if(datum.predominant_pollen_type=="Molds"){
+                                    <div class="predominant" style="margin-top:10%">
+                                        <p class="information">PREDOMINANT POLLEN TYPE:</p>
+                                        <p class="pollen">@datum.predominant_pollen_type <img src="@Url.Content("~/Content/Images/iconsAqi/mold.png")" height="60px" width="60px" style="margin-left:0.5%"></p>   
+                                    </div>   
+                                }  
+                                else if(datum.predominant_pollen_type=="Grasses"){
+                                    <div class="predominant" style="margin-top:10%">
+                                        <p class="information">PREDOMINANT POLLEN TYPE:</p>
+                                        <p class="pollen">@datum.predominant_pollen_type <img src="@Url.Content("~/Content/Images/iconsAqi/grass.png")" height="60px" width="60px" style="margin-left:0.5%"></p>   
+                                    </div>   
+                                }
+                                </span>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No se encontraron datos de calidad del aire.</p>
+            }
+        }
+        else
+        {
+            <p>No se encontraron datos.</p>
+        }
+    </main>
+
+    
+
+</body>
+</html>
